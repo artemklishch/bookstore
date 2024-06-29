@@ -11,14 +11,10 @@ import org.springframework.stereotype.Service;
 @Getter
 @Service
 public class BookServiceImpl implements BookService {
-    private BookRepository bookRepository;
-
-    public BookRepository getBookRepository() {
-        return bookRepository;
-    }
+    private final BookRepository bookRepository;
 
     @Autowired
-    public void setBookRepository(BookRepository bookRepository) {
+    public BookServiceImpl(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
 
