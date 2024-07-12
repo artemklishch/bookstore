@@ -10,10 +10,8 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-
 @Repository
 public class BookDaoImpl implements BookRepository {
-    @Autowired
     private final SessionFactory sessionFactory;
 
     @Autowired
@@ -31,7 +29,7 @@ public class BookDaoImpl implements BookRepository {
             session.persist(book);
             transaction.commit();
             return book;
-        } catch (RuntimeException e) {
+        } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -48,7 +46,7 @@ public class BookDaoImpl implements BookRepository {
         try (Session session = sessionFactory.openSession()) {
             Query<Book> getBooksQuery = session.createQuery("from Book", Book.class);
             return getBooksQuery.getResultList();
-        } catch (RuntimeException e) {
+        } catch (Exception e) {
             throw new RuntimeException("Failed to fetch books", e);
         }
     }
