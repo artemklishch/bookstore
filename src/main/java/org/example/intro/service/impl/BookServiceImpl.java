@@ -3,11 +3,14 @@ package org.example.intro.service.impl;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.example.intro.dto.BookDto;
+import org.example.intro.dto.BookSearchParametersDto;
 import org.example.intro.dto.CreateBookDto;
 import org.example.intro.mapper.BookMapper;
 import org.example.intro.model.Book;
-import org.example.intro.repository.BookRepository;
+import org.example.intro.repository.BookSpecificationBuilder;
+import org.example.intro.repository.book.BookRepository;
 import org.example.intro.service.BookService;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,6 +18,7 @@ import org.springframework.stereotype.Service;
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
+    private final BookSpecificationBuilder bookSpecificationBuilder;
 
     @Override
     public BookDto save(CreateBookDto requestDto) {
@@ -37,5 +41,13 @@ public class BookServiceImpl implements BookService {
     @Override
     public void delete(Long id) {
         bookRepository.deleteById(id);
+    }
+
+    @Override
+    public List<BookDto> search(BookSearchParametersDto params) {
+        Specification<Book> build = bookSpecificationBuilder.build(params);
+        return bookRepository.findAll(build).stream()
+                .map(bookMapper::toBookDto)
+                .toList();
     }
 }
