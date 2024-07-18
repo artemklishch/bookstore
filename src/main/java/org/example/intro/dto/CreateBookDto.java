@@ -1,13 +1,26 @@
 package org.example.intro.dto;
 
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import lombok.Data;
 
-public record CreateBookDto(
-        String title,
-        String author,
-        BigDecimal price,
-        String description,
-        String isbn,
-        String coverImage
-) {
+@Data
+public class CreateBookDto {
+    @NotNull
+    String title;
+
+    @NotNull
+    String author;
+
+    @NotNull
+    @Min(0)
+    BigDecimal price;
+
+    String description;
+
+    @NotNull
+    String isbn;
+
+    String coverImage;
 }
