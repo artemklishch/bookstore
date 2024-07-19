@@ -1,13 +1,22 @@
 package org.example.intro.service.impl;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+
 import lombok.RequiredArgsConstructor;
 import org.example.intro.dto.BookDto;
+import org.example.intro.dto.BookSearchParametersDto;
 import org.example.intro.dto.CreateBookDto;
 import org.example.intro.mapper.BookMapper;
 import org.example.intro.model.Book;
-import org.example.intro.repository.BookRepository;
+import org.example.intro.repository.BookSpecificationBuilder;
+import org.example.intro.repository.book.BookRepository;
 import org.example.intro.service.BookService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,6 +24,8 @@ import org.springframework.stereotype.Service;
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
+    private final BookSpecificationBuilder bookSpecificationBuilder;
+    private final int ITEMS_PER_PAGE = 20;
 
     @Override
     public BookDto save(CreateBookDto requestDto) {
@@ -37,5 +48,29 @@ public class BookServiceImpl implements BookService {
     @Override
     public void delete(Long id) {
         bookRepository.deleteById(id);
+    }
+
+    @Override
+    public List<BookDto> search(BookSearchParametersDto params, int page) {
+        Pageable pageable = PageRequest.of(page, ITEMS_PER_PAGE);
+        String[] titles = params.titles();
+        String[] authors = params.authors();
+        String[] isbns = params.isbns();
+        if (
+                (titles == null || titles.length == 0) &&
+                        (authors == null || authors.length == 0) &&
+                        (isbns == null || isbns.length == 0)
+        ) {
+            return bookRepository.findAll(pageable).map(bookMapper::toBookDto).toList();
+        } else {
+            List<String> emptyList = Collections.emptyList();
+            Page<Book> books = bookRepository.findBooksOnPage(
+                    Objects.isNull(titles) ? emptyList : List.of(titles),
+                    Objects.isNull(authors) ? emptyList : List.of(authors),
+                    Objects.isNull(isbns) ? emptyList : List.of(isbns),
+                    pageable
+            );
+            return books.getContent().stream().map(bookMapper::toBookDto).toList();
+        }
     }
 }
