@@ -38,7 +38,6 @@ public class BookController {
         bookService.delete(id);
     }
 
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     @GetMapping("/search/{page}")
     public List<BookDto> search(
             BookSearchParametersDto searchParameters,
