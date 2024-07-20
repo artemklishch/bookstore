@@ -1,10 +1,8 @@
 package org.example.intro.service.impl;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-
 import lombok.RequiredArgsConstructor;
 import org.example.intro.dto.BookDto;
 import org.example.intro.dto.BookSearchParametersDto;
@@ -17,7 +15,6 @@ import org.example.intro.service.BookService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 @Service

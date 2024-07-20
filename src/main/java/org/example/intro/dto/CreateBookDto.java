@@ -6,9 +6,11 @@ import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Setter
+@Getter
 public class CreateBookDto {
     @NotBlank
     String title;
