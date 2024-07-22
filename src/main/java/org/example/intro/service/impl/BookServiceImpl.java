@@ -13,7 +13,6 @@ import org.example.intro.repository.BookSpecificationBuilder;
 import org.example.intro.repository.book.BookRepository;
 import org.example.intro.service.BookService;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +22,6 @@ public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
     private final BookSpecificationBuilder bookSpecificationBuilder;
-    private final int ITEMS_PER_PAGE = 20;
 
     @Override
     public BookDto save(CreateBookDto requestDto) {
@@ -32,8 +30,8 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<BookDto> findAll() {
-        return bookRepository.findAll().stream()
+    public List<BookDto> findAll(Pageable pageable) {
+        return bookRepository.findAll(pageable).stream()
                 .map(bookMapper::toBookDto)
                 .toList();
     }
@@ -49,15 +47,14 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<BookDto> search(BookSearchParametersDto params, int page) {
-        Pageable pageable = PageRequest.of(page, ITEMS_PER_PAGE);
+    public List<BookDto> search(BookSearchParametersDto params, Pageable pageable) {
         String[] titles = params.titles();
         String[] authors = params.authors();
         String[] isbns = params.isbns();
         if (
                 (titles == null || titles.length == 0) &&
-                        (authors == null || authors.length == 0) &&
-                        (isbns == null || isbns.length == 0)
+                (authors == null || authors.length == 0) &&
+                (isbns == null || isbns.length == 0)
         ) {
             return bookRepository.findAll(pageable).map(bookMapper::toBookDto).toList();
         } else {

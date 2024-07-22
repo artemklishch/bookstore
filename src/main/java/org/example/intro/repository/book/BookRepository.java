@@ -10,7 +10,8 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface BookRepository extends
         JpaRepository<Book, Long>,
-        JpaSpecificationExecutor<Book> {
+        JpaSpecificationExecutor<Book>,
+        PageAndSortingRepository<Book, Long> {
     @Query("SELECT b FROM Book b WHERE b.title IN :titles OR b.author IN :authors OR b.isbn IN :isbns")
     Page<Book> findBooksOnPage(
             List<String> titles,
