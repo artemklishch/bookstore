@@ -1,13 +1,12 @@
 package org.example.intro.controller;
 
+import jakarta.validation.Valid;
 import java.util.List;
-
 import lombok.RequiredArgsConstructor;
 import org.example.intro.dto.BookDto;
 import org.example.intro.dto.BookSearchParametersDto;
 import org.example.intro.dto.CreateBookDto;
 import org.example.intro.service.BookService;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +22,8 @@ public class BookController {
     }
 
     @PostMapping
-    public BookDto create(@RequestBody CreateBookDto requestDto) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public BookDto create(@RequestBody @Valid CreateBookDto requestDto) {
         return bookService.save(requestDto);
     }
 
@@ -38,7 +38,6 @@ public class BookController {
         bookService.delete(id);
     }
 
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     @GetMapping("/search/{page}")
     public List<BookDto> search(
             BookSearchParametersDto searchParameters,
