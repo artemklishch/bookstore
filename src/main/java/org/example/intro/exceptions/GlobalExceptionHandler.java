@@ -27,9 +27,7 @@ public class GlobalExceptionHandler
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", LocalDateTime.now());
         body.put("status", HttpStatus.CONFLICT);
-        body.put("error", "Conflict");
-        body.put("message", ex.getMessage());
-        body.put("path", "auth/registration");
+        body.put("errors", List.of(ex.getMessage()));
         return new ResponseEntity<>(body, new HttpHeaders(), HttpStatus.CONFLICT);
     }
 
