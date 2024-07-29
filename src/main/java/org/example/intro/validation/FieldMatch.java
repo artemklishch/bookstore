@@ -15,7 +15,7 @@ import java.lang.annotation.Target;
 @Documented
 public @interface FieldMatch {
 
-    String message() default "Fields must match";
+    String message() default "Fields '{field}' and '{verifyField}' must match";
 
     Class<?>[] groups() default {};
 
