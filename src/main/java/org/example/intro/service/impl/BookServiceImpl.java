@@ -2,9 +2,9 @@ package org.example.intro.service.impl;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.example.intro.dto.BookDto;
-import org.example.intro.dto.BookSearchParametersDto;
-import org.example.intro.dto.CreateBookDto;
+import org.example.intro.dto.book.BookDto;
+import org.example.intro.dto.book.BookSearchParametersDto;
+import org.example.intro.dto.book.CreateBookDto;
 import org.example.intro.mapper.BookMapper;
 import org.example.intro.model.Book;
 import org.example.intro.repository.BookSpecificationBuilder;
