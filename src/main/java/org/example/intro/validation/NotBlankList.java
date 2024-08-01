@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 @Target({ ElementType.FIELD, ElementType.PARAMETER })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface NotBlankList {
-    String message() default "List contains blank elements";
+    String message() default "List is empty";
 
     Class<?>[] groups() default {};
 

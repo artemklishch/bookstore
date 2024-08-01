@@ -8,8 +8,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import java.util.HashMap;
-import java.util.Map;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,8 +25,8 @@ public class Role {
     @Column(nullable = false, unique = true)
     private RoleName name;
 
-    public Role(RoleName name) {
-        this.name = name;
+    public Role(Long id) {
+        this.id = id;
     }
 
     @Getter
@@ -36,26 +34,10 @@ public class Role {
         ADMIN("ADMIN"),
         USER("USER");
 
-        private String code;
+        public final String name;
 
-        private static final Map<String, RoleName> lookup = new HashMap<>();
-
-        static {
-            for (RoleName d : RoleName.values()) {
-                lookup.put(d.getCode(), d);
-            }
-        }
-
-        RoleName(String code) {
-            this.code = code;
-        }
-
-        public String getCode() {
-            return code;
-        }
-
-        public static RoleName get(String code) {
-            return lookup.get(code);
+        RoleName(String roleName) {
+            this.name = roleName;
         }
     }
 }

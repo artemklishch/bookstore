@@ -51,8 +51,6 @@ public class UserRegistrationRequestDto {
     )
     private String shippingAddress;
 
-    @NotBlankList(
-            message = "User has to have at least one role and role should be a string value"
-    )
-    private List<String> roles;
+    @NotBlankList(message = "User has to have at least one role")
+    private List<Long> roles;
 }
