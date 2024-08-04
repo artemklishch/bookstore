@@ -16,7 +16,12 @@ public class TitleSpecificationProvider implements SpecificationProvider<Book> {
 
     @Override
     public Specification<Book> getSpecification(String[] params) {
-        return (root, query, criteriaBuilder) -> root.get(BookSpecificationBuilder.TITLE)
-                .in(Arrays.stream(params).toArray());
+        return (root, query, criteriaBuilder) -> Arrays.stream(params)
+                .map(title -> criteriaBuilder.like(
+                        criteriaBuilder.upper(root.get(BookSpecificationBuilder.TITLE)),
+                        "%" + title.toUpperCase() + "%"
+                ))
+                .reduce(criteriaBuilder::or)
+                .orElse(null);
     }
 }

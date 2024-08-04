@@ -16,7 +16,12 @@ public class ISBNSpecificationProvider implements SpecificationProvider<Book> {
 
     @Override
     public Specification<Book> getSpecification(String[] params) {
-        return (root, query, criteriaBuilder) -> root.get(BookSpecificationBuilder.ISBN)
-                .in(Arrays.stream(params).toArray());
+        return (root, query, criteriaBuilder) -> Arrays.stream(params)
+                .map(isbn -> criteriaBuilder.like(
+                        criteriaBuilder.upper(root.get(BookSpecificationBuilder.ISBN)),
+                        "%" + isbn.toUpperCase() + "%"
+                ))
+                .reduce(criteriaBuilder::or)
+                .orElse(null);
     }
 }

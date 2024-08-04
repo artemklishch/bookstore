@@ -1,6 +1,7 @@
 package org.example.intro.service.impl;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import lombok.RequiredArgsConstructor;
 import org.example.intro.dto.book.BookDto;
 import org.example.intro.dto.book.BookSearchParametersDto;
@@ -50,5 +51,21 @@ public class BookServiceImpl implements BookService {
         return bookRepository.findAll(bookSpecification, pageable).stream()
                 .map(bookMapper::toBookDto)
                 .toList();
+    }
+
+    @Override
+    public BookDto update(Long id, CreateBookDto requestDto) {
+        Book bookFromDB = bookRepository.findById(id).orElse(null);
+        if (bookFromDB == null) {
+            throw new NoSuchElementException("Book with the id " + id + " does not exist");
+        }
+        bookFromDB.setTitle(requestDto.getTitle());
+        bookFromDB.setAuthor(requestDto.getAuthor());
+        bookFromDB.setPrice(requestDto.getPrice());
+        bookFromDB.setDescription(requestDto.getDescription());
+        bookFromDB.setIsbn(requestDto.getIsbn());
+        bookFromDB.setCoverImage(requestDto.getCoverImage());
+        bookRepository.save(bookFromDB);
+        return bookMapper.toBookDto(bookFromDB);
     }
 }
