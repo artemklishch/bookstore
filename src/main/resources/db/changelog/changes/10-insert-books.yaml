@@ -1,0 +1,50 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-roles
+      author: artem_klishch
+      changes:
+        - insert:
+            tableName: books
+            columns:
+              - column: { name: title, value: "The Hobbit: The unexpected journey" }
+              - column: { name: author, value: "John Tolkin" }
+              - column: { name: isbn, value: "11" }
+              - column: { name: price, value: 12 }
+              - column: { name: description, value: "Beautiful story on hobbit and dwarfs" }
+              - column: { name: cover_image, value: "https://google.com/some_image.png" }
+        - insert:
+            tableName: books
+            columns:
+              - column: { name: title, value: "The Hobbit: The Desolation of Smaug" }
+              - column: { name: author, value: "John Tolkin" }
+              - column: { name: isbn, value: "22" }
+              - column: { name: price, value: 10 }
+              - column: { name: description, value: "Beautiful story on hobbit and dwarfs" }
+              - column: { name: cover_image, value: "https://google.com/some_image.png" }
+        - insert:
+            tableName: books
+            columns:
+              - column: { name: title, value: "The Hobbit: The battle of five armies" }
+              - column: { name: author, value: "John Tolkin" }
+              - column: { name: isbn, value: "33" }
+              - column: { name: price, value: 8 }
+              - column: { name: description, value: "Beautiful story on hobbit and dwarfs" }
+              - column: { name: cover_image, value: "https://google.com/some_image.png" }
+        - insert:
+            tableName: books
+            columns:
+              - column: { name: title, value: "Cooking for pleasure" }
+              - column: { name: author, value: "Boris Burda" }
+              - column: { name: isbn, value: "44" }
+              - column: { name: price, value: 5 }
+              - column: { name: description, value: "Good recipes" }
+              - column: { name: cover_image, value: "https://google.com/some_image.png" }
+        - insert:
+            tableName: books
+            columns:
+              - column: { name: title, value: "Temptations of vegetarian" }
+              - column: { name: author, value: "Secret author" }
+              - column: { name: isbn, value: "55" }
+              - column: { name: price, value: 5 }
+              - column: { name: description, value: "The best recipes" }
+              - column: { name: cover_image, value: "https://google.com/some_image.png" }

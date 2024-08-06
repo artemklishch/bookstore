@@ -1,0 +1,21 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-categories
+      author: artem_klishch
+      changes:
+        - insert:
+            tableName: categories
+            columns:
+              - column: { name: name, value: "Fantasy" }
+              - column: {
+                name: description,
+                value: "This is very interesting book category. It includes fairy tales about magic and miracle things."
+              }
+        - insert:
+            tableName: categories
+            columns:
+              - column: { name: name, value: "Cooking" }
+              - column: {
+                name: description,
+                value: "Cooking is a very important part of our life. Books on food and cooking will make you happy."
+              }
