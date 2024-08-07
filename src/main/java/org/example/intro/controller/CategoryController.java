@@ -30,21 +30,21 @@ public class CategoryController {
     private final CategoryService categoryService;
     private final BookService bookService;
 
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping
     @Operation(summary = "Get all categories", description = "Get all categories, including query parameters")
     public List<CategoryDto> findAll(Pageable pageable) {
         return categoryService.findAll(pageable);
     }
 
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("/{id}")
     @Operation(summary = "Get category by ID", description = "Get category by ID")
     public CategoryDto getCategoryById(@PathVariable Long id) {
         return categoryService.getById(id);
     }
 
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("/{id}/books")
     @Operation(
             summary = "Find books by category",

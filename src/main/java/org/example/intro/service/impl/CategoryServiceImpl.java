@@ -41,14 +41,12 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDto update(Long id, CreateCategoryRequestDto categoryDto) {
-        Category categoryFromDb = categoryRepository.findById(id).orElse(null);
-        if (categoryFromDb == null) {
-            throw new NoSuchElementException("Category with the id " + id + " does not exist");
-        }
-        categoryFromDb.setName(categoryDto.getName());
-        categoryFromDb.setDescription(categoryDto.getDescription());
-        categoryRepository.save(categoryFromDb);
-        return categoryMapper.toDto(categoryFromDb);
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException(
+                        "Category with the id " + id + " does not exist"
+                ));
+        categoryMapper.updateCategoryFromDto(categoryDto, category);
+        return categoryMapper.toDto(categoryRepository.save(category));
     }
 
     @Override

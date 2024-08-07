@@ -40,7 +40,11 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookDto findById(Long id) {
-        return bookMapper.toDto(bookRepository.findById(id).orElse(null));
+        return bookMapper.toDto(bookRepository.findById(id)
+                .orElseThrow(
+                        () -> new NoSuchElementException("Book with id " + id + " not found")
+                )
+        );
     }
 
     @Override
