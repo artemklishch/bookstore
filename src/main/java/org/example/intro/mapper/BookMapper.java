@@ -19,6 +19,7 @@ import org.mapstruct.MappingTarget;
 public interface BookMapper {
     @Mapping(target = "categoryIds", ignore = true)
     BookDto toDto(Book book);
+
     @AfterMapping
     default void setCategoryIds(@MappingTarget BookDto bookDto, Book book){
         List<Long> categoryIds = book.getCategories().stream()
@@ -29,6 +30,7 @@ public interface BookMapper {
 
     @Mapping(target = "categories", ignore = true)
     Book toEntity(CreateBookDto createDto);
+
     @AfterMapping
     default void setCategories(@MappingTarget Book book, CreateBookDto requestDto) {
         Set<Long> categoryIds = new HashSet<>(requestDto.getCategories());

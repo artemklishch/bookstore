@@ -62,10 +62,9 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookDto update(Long id, CreateBookDto requestDto) {
-        Book bookFromDB = bookRepository.findById(id).orElse(null);
-        if (bookFromDB == null) {
-            throw new NoSuchElementException("Book with the id " + id + " does not exist");
-        }
+        Book bookFromDB = bookRepository.findById(id).orElseThrow(
+                () -> new NoSuchElementException("Book with id " + id + " not found")
+        );
         bookFromDB.setTitle(requestDto.getTitle());
         bookFromDB.setAuthor(requestDto.getAuthor());
         bookFromDB.setPrice(requestDto.getPrice());

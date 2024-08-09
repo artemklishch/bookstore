@@ -17,5 +17,4 @@ public interface CategoryMapper {
             CreateCategoryRequestDto categoryDto,
             @MappingTarget Category category
     );
-
 }

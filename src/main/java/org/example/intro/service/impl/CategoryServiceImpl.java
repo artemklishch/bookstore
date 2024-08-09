@@ -28,7 +28,9 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryDto getById(Long id) {
         return categoryMapper.toDto(
-                categoryRepository.findById(id).orElse(null)
+                categoryRepository.findById(id).orElseThrow(
+                        () -> new NoSuchElementException("Category with id " + id + " not found")
+                )
         );
     }
 
