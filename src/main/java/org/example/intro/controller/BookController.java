@@ -25,11 +25,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Tag(name = "Book management", description = "Endpoints for book management")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/books")
+@RequestMapping("/books")
 public class BookController {
     private final BookService bookService;
 
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping
     @Operation(summary = "Get all books", description = "Get all books, including query parameters")
     public List<BookDto> findAll(Pageable pageable) {
@@ -44,7 +44,7 @@ public class BookController {
         return bookService.save(requestDto);
     }
 
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("/{id}")
     @Operation(summary = "Get the book by ID", description = "Get the book by ID")
     public BookDto findById(@PathVariable Long id) {
@@ -67,7 +67,7 @@ public class BookController {
         return bookService.update(id, requestDto);
     }
 
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("/search")
     @Operation(summary = "Get books by fields", description = "Get books by titles, authors, isbns")
     public List<BookDto> search(

@@ -1,8 +1,10 @@
-package org.example.intro.repository;
+package org.example.intro.repository.book;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.example.intro.model.Book;
+import org.example.intro.repository.SpecificationProvider;
+import org.example.intro.repository.SpecificationProviderManager;
 import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor

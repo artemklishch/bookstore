@@ -6,7 +6,6 @@ import org.example.intro.dto.user.UserResponseDto;
 import org.example.intro.exceptions.RegistrationException;
 import org.example.intro.mapper.UserMapper;
 import org.example.intro.model.User;
-import org.example.intro.repository.role.RoleRepository;
 import org.example.intro.repository.user.UserRepository;
 import org.example.intro.service.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,7 +17,6 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
-    private final RoleRepository roleRepository;
 
     @Override
     public UserResponseDto register(UserRegistrationRequestDto requestDto)

@@ -3,10 +3,10 @@ package org.example.intro.dto.user;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import java.util.List;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.Setter;
 import org.example.intro.validation.FieldMatch;
-import org.example.intro.validation.NotBlankList;
 import org.hibernate.validator.constraints.Length;
 
 @Setter
@@ -51,6 +51,6 @@ public class UserRegistrationRequestDto {
     )
     private String shippingAddress;
 
-    @NotBlankList(message = "User has to have at least one role")
+    @NotEmpty(message = "User has to have at least one role")
     private List<Long> roles;
 }

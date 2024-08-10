@@ -2,7 +2,7 @@ package org.example.intro.repository.book.spec;
 
 import java.util.Arrays;
 import org.example.intro.model.Book;
-import org.example.intro.repository.BookSpecificationBuilder;
+import org.example.intro.repository.book.BookSpecificationBuilder;
 import org.example.intro.repository.SpecificationProvider;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
