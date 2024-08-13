@@ -17,13 +17,11 @@ databaseChangeLog:
                   name: shopping_cart_id
                   type: bigint
                   constraints:
-                    unique: true
                     nullable: false
               - column:
                   name: book_id
                   type: bigint
                   constraints:
-                    unique: true
                     nullable: false
               - column:
                   name: quantity
