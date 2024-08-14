@@ -60,11 +60,12 @@ public class CartController {
             summary = "Update cart item quantity",
             description = "Update cart item quantity in the shopping cart"
     )
-    public CartItemDto updateCartItemsQuantity(
+    public ShoppingCartDto updateCartItemsQuantity(
             @PathVariable Long cartItemId,
-            @RequestBody @Valid UpdateCartItemsQuantityDto quantityDto
+            @RequestBody @Valid UpdateCartItemsQuantityDto quantityDto,
+            Authentication authentication
     ){
-        return cartService.updateCartItem(cartItemId, quantityDto);
+        return cartService.updateCartItem(cartItemId, quantityDto, authentication);
     }
 
     @DeleteMapping("/items/{cartItemId}")

@@ -1,7 +1,5 @@
 package org.example.intro.service;
 
-import org.springframework.data.domain.Pageable;
-import org.example.intro.dto.cart.CartItemDto;
 import org.example.intro.dto.cart.CreateCartItemDto;
 import org.example.intro.dto.cart.ShoppingCartDto;
 import org.example.intro.dto.cart.UpdateCartItemsQuantityDto;
@@ -16,9 +14,10 @@ public interface ShoppingCartService {
             Authentication authentication
     );
 
-    CartItemDto updateCartItem(
+    ShoppingCartDto updateCartItem(
             Long cartItemId,
-            UpdateCartItemsQuantityDto requestDto
+            UpdateCartItemsQuantityDto requestDto,
+            Authentication authentication
     );
 
     void deleteCartItem(Long cartItemId, Authentication authentication);

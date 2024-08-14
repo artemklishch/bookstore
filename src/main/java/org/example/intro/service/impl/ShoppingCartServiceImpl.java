@@ -63,15 +63,17 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    public CartItemDto updateCartItem(
+    public ShoppingCartDto updateCartItem(
             Long cartItemId,
-            UpdateCartItemsQuantityDto requestDto
+            UpdateCartItemsQuantityDto requestDto,
+            Authentication authentication
     ) {
         CartItem cartItemFromDb = cartItemRepository
                 .findById(cartItemId)
                 .orElseThrow(() -> new NoSuchElementException("Cart item not found"));
         cartItemFromDb.setQuantity(requestDto.getQuantity());
-        return cartItemMapper.toCartItemDto(cartItemRepository.save(cartItemFromDb));
+        cartItemRepository.save(cartItemFromDb);
+        return getCart(authentication);
     }
 
     @Override
