@@ -8,7 +8,7 @@ import org.example.intro.exceptions.RegistrationException;
 import org.example.intro.mapper.UserMapper;
 import org.example.intro.model.User;
 import org.example.intro.repository.user.UserRepository;
-import org.example.intro.service.CartService;
+import org.example.intro.service.ShoppingCartService;
 import org.example.intro.service.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
-    private final CartService cartService;
+    private final ShoppingCartService cartService;
 
     @Override
     @Transactional
@@ -34,12 +34,8 @@ public class UserServiceImpl implements UserService {
         }
         User user = userMapper.toModel(requestDto);
         user.setPassword(passwordEncoder.encode(requestDto.getPassword()));
-        try {
-            userRepository.save(user);
-            cartService.createShoppingCart(user);
-            return userMapper.toUserResponseDto(user);
-        } catch (RuntimeException e) {
-            throw new RegistrationException(e.getMessage());
-        }
+        userRepository.save(user);
+        cartService.createShoppingCart(user);
+        return userMapper.toUserResponseDto(user);
     }
 }

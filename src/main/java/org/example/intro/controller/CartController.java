@@ -2,13 +2,13 @@ package org.example.intro.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.intro.dto.cart.CartItemDto;
 import org.example.intro.dto.cart.CreateCartItemDto;
 import org.example.intro.dto.cart.ShoppingCartDto;
 import org.example.intro.dto.cart.UpdateCartItemsQuantityDto;
-import org.example.intro.service.CartService;
-import org.springframework.data.domain.Pageable;
+import org.example.intro.service.ShoppingCartService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @RestController
 @RequestMapping("/cart")
 public class CartController {
-    private final CartService cartService;
+    private final ShoppingCartService cartService;
 
     @GetMapping
     @PreAuthorize("hasAnyRole('USER')")
@@ -35,11 +35,8 @@ public class CartController {
             summary = "Retrieve the shopping cart",
             description = "Retrieve the shopping cart data with cart items"
     )
-    public ShoppingCartDto getCart(
-            Authentication authentication,
-            Pageable pageable
-    ){
-        return cartService.getCart(authentication, pageable);
+    public ShoppingCartDto getCart(Authentication authentication){
+        return cartService.getCart(authentication);
     }
 
     @PostMapping
@@ -49,9 +46,9 @@ public class CartController {
             summary = "Add cart item to the shopping cart",
             description = "Add cart item to the shopping cart"
     )
-    public CartItemDto addToCart(
+    public ShoppingCartDto addToCart(
             Authentication authentication,
-            @RequestBody CreateCartItemDto requestDto
+            @RequestBody @Valid CreateCartItemDto requestDto
     ){
         return cartService.createCartItem(requestDto, authentication);
     }
@@ -65,7 +62,7 @@ public class CartController {
     )
     public CartItemDto updateCartItemsQuantity(
             @PathVariable Long cartItemId,
-            @RequestBody UpdateCartItemsQuantityDto quantityDto
+            @RequestBody @Valid UpdateCartItemsQuantityDto quantityDto
     ){
         return cartService.updateCartItem(cartItemId, quantityDto);
     }

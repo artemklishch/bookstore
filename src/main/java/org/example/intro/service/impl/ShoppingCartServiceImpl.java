@@ -1,6 +1,5 @@
 package org.example.intro.service.impl;
 
-import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -18,15 +17,13 @@ import org.example.intro.repository.book.BookRepository;
 import org.example.intro.repository.cart.CartItemRepository;
 import org.example.intro.repository.cart.CartRepository;
 import org.example.intro.sequrity.CustomUserDetailsService;
-import org.example.intro.service.CartService;
-import org.springframework.data.domain.Page;
+import org.example.intro.service.ShoppingCartService;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-import org.springframework.data.domain.Pageable;
 
 @RequiredArgsConstructor
 @Service
-public class CartServiceImpl implements CartService {
+public class ShoppingCartServiceImpl implements ShoppingCartService {
     private final CustomUserDetailsService userDetailsService;
     private final CartRepository cartRepository;
     private final CartMapper cartMapper;
@@ -35,46 +32,34 @@ public class CartServiceImpl implements CartService {
     private final BookRepository bookRepository;
 
     @Override
-    public ShoppingCartDto getCart(
-            Authentication authentication,
-            Pageable pageable
-    ) {
-        Long cartId = ((User) userDetailsService
-                .loadUserByUsername(authentication.getName()))
-                .getShoppingCart().getId();
-        ShoppingCart shoppingCart = cartRepository.findById(cartId)
-                .orElseThrow(() -> new RuntimeException("Cart not found"));
-        Page<CartItem> cartItemPage = cartItemRepository.findAllByShoppingCartId(
-                shoppingCart.getId(), pageable
-        );
-        List<CartItemDto> cartItems = cartItemPage.stream()
-                .map(cartItemMapper::toCartItemDto)
-                .toList();
-        ShoppingCartDto shoppingCartDto = cartMapper.toCartDto(shoppingCart);
-        shoppingCartDto.setCartItems(cartItems);
-        return shoppingCartDto;
+    public ShoppingCartDto getCart(Authentication authentication) {
+        Long userId = ((User) userDetailsService
+                .loadUserByUsername(authentication.getName())).getId();
+        ShoppingCart cart = cartRepository.findById(userId)
+                .orElseThrow(() -> new NoSuchElementException("No cart found"));
+        return cartMapper.toCartDto(cart);
     }
 
     @Override
-    public CartItemDto createCartItem(
+    public ShoppingCartDto createCartItem(
             CreateCartItemDto createCartItemDto,
             Authentication authentication
     ) {
         Long bookId = createCartItemDto.getBookId();
         Book bookById = bookRepository.findById(bookId)
                 .orElseThrow(() -> new NoSuchElementException("Book not found"));
-        Long cartId = ((User) userDetailsService
-                .loadUserByUsername(authentication.getName()))
-                .getShoppingCart().getId();
-        CartItem existingCartItem = cartItemRepository.findByCartIdAndBookId(cartId, bookId);
+        Long userId = ((User) userDetailsService
+                .loadUserByUsername(authentication.getName())).getId();
+        CartItem existingCartItem = cartItemRepository.findByCartIdAndBookId(userId, bookId);
         if (existingCartItem != null) {
             throw new RuntimeException("You can not add more than one cart item " +
                     "type to the your cart. You can update its quantity");
         }
         CartItem cartItem = cartItemMapper.toEntity(createCartItemDto);
         cartItem.setBook(bookById);
-        cartItem.setShoppingCart(new ShoppingCart(cartId));
-        return cartItemMapper.toCartItemDto(cartItemRepository.save(cartItem));
+        cartItem.setShoppingCart(new ShoppingCart(userId));
+        cartItemRepository.save(cartItem);
+        return getCart(authentication);
     }
 
     @Override
@@ -91,11 +76,10 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public void deleteCartItem(Long cartItemId, Authentication authentication) {
-        Long cartId = ((User) userDetailsService
-                .loadUserByUsername(authentication.getName()))
-                .getShoppingCart().getId();
+        Long userId = ((User) userDetailsService
+                .loadUserByUsername(authentication.getName())).getId();
         CartItem existingCartItem = Optional.ofNullable(cartItemRepository
-                .findByIdAndByCartId(cartId, cartItemId)).orElseThrow(
+                .findByIdAndByCartId(userId, cartItemId)).orElseThrow(
                 () -> new NoSuchElementException(
                         "No such item found in your shopping cart"
                 )

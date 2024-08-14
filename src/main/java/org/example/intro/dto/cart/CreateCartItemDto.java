@@ -1,17 +1,18 @@
 package org.example.intro.dto.cart;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 public class CreateCartItemDto {
-    @NotBlank(message = "The book identifier is mandatory")
+    @NotNull(message = "The book identifier is mandatory")
     private Long bookId;
-    @Size(max = 1000, message = "Impossible to add over 1000 items per one time")
+    @NotNull(message = "The quantity value is mandatory")
     @Positive(message = "The value should be positive")
+    @Max(value = 10000, message = "Max value shouldn't be over 1000")
     private int quantity;
 }

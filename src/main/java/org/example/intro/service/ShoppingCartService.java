@@ -8,10 +8,10 @@ import org.example.intro.dto.cart.UpdateCartItemsQuantityDto;
 import org.example.intro.model.User;
 import org.springframework.security.core.Authentication;
 
-public interface CartService {
-    ShoppingCartDto getCart(Authentication authentication, Pageable pageable);
+public interface ShoppingCartService {
+    ShoppingCartDto getCart(Authentication authentication);
 
-    CartItemDto createCartItem(
+    ShoppingCartDto createCartItem(
             CreateCartItemDto createCartItemDto,
             Authentication authentication
     );
