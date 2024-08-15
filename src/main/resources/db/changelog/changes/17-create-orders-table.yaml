@@ -14,10 +14,16 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_users_id
+              - column:
                   name: status
                   type: varchar(255)
+                  defaultValue: "PENDING"
                   constraints:
-                    unique: true
                     nullable: false
               - column:
                   name: total
@@ -28,6 +34,7 @@ databaseChangeLog:
               - column:
                   name: order_date
                   type: timestamp
+                  defaultValueNumeric: current_timestamp
                   constraints:
                     nullable: false
               - column:
