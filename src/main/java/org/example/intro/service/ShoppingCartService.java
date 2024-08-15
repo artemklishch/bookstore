@@ -20,7 +20,7 @@ public interface ShoppingCartService {
             Authentication authentication
     );
 
-    void deleteCartItem(Long cartItemId, Authentication authentication);
+    ShoppingCartDto deleteCartItem(Long cartItemId, Authentication authentication);
 
     void createShoppingCart(User user);
 }
