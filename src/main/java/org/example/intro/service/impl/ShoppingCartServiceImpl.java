@@ -1,12 +1,12 @@
 package org.example.intro.service.impl;
 
-import java.util.NoSuchElementException;
 import java.util.Optional;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.example.intro.dto.cart.CartItemDto;
 import org.example.intro.dto.cart.CreateCartItemDto;
 import org.example.intro.dto.cart.ShoppingCartDto;
 import org.example.intro.dto.cart.UpdateCartItemsQuantityDto;
+import org.example.intro.exceptions.ProceedingException;
 import org.example.intro.mapper.CartItemMapper;
 import org.example.intro.mapper.CartMapper;
 import org.example.intro.model.Book;
@@ -36,7 +36,10 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         Long userId = ((User) userDetailsService
                 .loadUserByUsername(authentication.getName())).getId();
         ShoppingCart cart = cartRepository.findById(userId)
-                .orElseThrow(() -> new NoSuchElementException("No cart found"));
+                .orElseThrow(
+                        () -> new EntityNotFoundException("Not found the cart "
+                        + "with id " + userId)
+                );
         return cartMapper.toCartDto(cart);
     }
 
@@ -47,13 +50,16 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     ) {
         Long bookId = createCartItemDto.getBookId();
         Book bookById = bookRepository.findById(bookId)
-                .orElseThrow(() -> new NoSuchElementException("Book not found"));
+                .orElseThrow(
+                        () -> new EntityNotFoundException("Not found the book "
+                        + "with id " + bookId)
+                );
         Long userId = ((User) userDetailsService
                 .loadUserByUsername(authentication.getName())).getId();
         CartItem existingCartItem = cartItemRepository.findByCartIdAndBookId(userId, bookId);
         if (existingCartItem != null) {
-            throw new RuntimeException("You can not add more than one cart item " +
-                    "type to the your cart. You can update its quantity");
+            throw new ProceedingException("You can not add more than one cart item "
+                    + "type to the your cart. You can update its quantity");
         }
         CartItem cartItem = cartItemMapper.toEntity(createCartItemDto);
         cartItem.setBook(bookById);
@@ -68,25 +74,30 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
             UpdateCartItemsQuantityDto requestDto,
             Authentication authentication
     ) {
-        CartItem cartItemFromDb = cartItemRepository
+        CartItem cartItem = cartItemRepository
                 .findById(cartItemId)
-                .orElseThrow(() -> new NoSuchElementException("Cart item not found"));
-        cartItemFromDb.setQuantity(requestDto.getQuantity());
-        cartItemRepository.save(cartItemFromDb);
+                .orElseThrow(
+                        () -> new EntityNotFoundException("Not found the cart item "
+                        + "with id " + cartItemId)
+                );
+        cartItem.setQuantity(requestDto.getQuantity());
+        cartItemRepository.save(cartItem);
         return getCart(authentication);
     }
 
     @Override
-    public void deleteCartItem(Long cartItemId, Authentication authentication) {
+    public ShoppingCartDto deleteCartItem(Long cartItemId, Authentication authentication) {
         Long userId = ((User) userDetailsService
                 .loadUserByUsername(authentication.getName())).getId();
         CartItem existingCartItem = Optional.ofNullable(cartItemRepository
                 .findByIdAndByCartId(userId, cartItemId)).orElseThrow(
-                () -> new NoSuchElementException(
-                        "No such item found in your shopping cart"
+                () -> new EntityNotFoundException(
+                        "Not found the cart item "
+                        + "with id " + cartItemId + " in your shopping cart"
                 )
         );
         cartItemRepository.delete(existingCartItem);
+        return getCart(authentication);
     }
 
     @Override

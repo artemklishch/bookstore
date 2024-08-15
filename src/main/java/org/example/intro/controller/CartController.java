@@ -9,6 +9,7 @@ import org.example.intro.dto.cart.CreateCartItemDto;
 import org.example.intro.dto.cart.ShoppingCartDto;
 import org.example.intro.dto.cart.UpdateCartItemsQuantityDto;
 import org.example.intro.service.ShoppingCartService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -75,10 +76,10 @@ public class CartController {
             description = "Delete cart item in the shopping cart"
     )
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteCartItem(
+    public ShoppingCartDto deleteCartItem(
             Authentication authentication,
             @PathVariable Long cartItemId
     ){
-        cartService.deleteCartItem(cartItemId, authentication);
+        return cartService.deleteCartItem(cartItemId, authentication);
     }
 }

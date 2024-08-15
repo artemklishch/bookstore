@@ -11,7 +11,6 @@ import lombok.Setter;
 public class CreateCartItemDto {
     @NotNull(message = "The book identifier is mandatory")
     private Long bookId;
-    @NotNull(message = "The quantity value is mandatory")
     @Positive(message = "The value should be positive")
     @Max(value = 10000, message = "Max value shouldn't be over 1000")
     private int quantity;
