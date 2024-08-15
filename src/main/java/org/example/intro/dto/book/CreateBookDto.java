@@ -14,18 +14,18 @@ import lombok.Setter;
 @Getter
 public class CreateBookDto {
     @NotBlank
-    String title;
+    private String title;
     @NotBlank
-    String author;
+    private String author;
     @NotNull
     @Min(0)
-    BigDecimal price;
+    private BigDecimal price;
     @Size(min = 2, max = 255)
-    String description;
+    private String description;
     @NotBlank
-    String isbn;
+    private String isbn;
     @Size(min = 10)
-    String coverImage;
+    private String coverImage;
     @NotEmpty(message = "Book has to have at least one category")
     private List<Long> categories;
 }

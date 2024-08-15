@@ -12,7 +12,11 @@ import jakarta.persistence.Table;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 import org.springframework.security.core.GrantedAuthority;
@@ -51,6 +55,10 @@ public class User implements UserDetails {
     )
     @Column(nullable = false)
     private Set<Role> roles;
+
+    public User(Long id) {
+        this.id = id;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
