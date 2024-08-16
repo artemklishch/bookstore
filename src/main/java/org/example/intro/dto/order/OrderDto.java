@@ -3,14 +3,14 @@ package org.example.intro.dto.order;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
-import org.example.intro.model.Order;
+import org.example.intro.enums.OrderStatus;
 
 public record OrderDto(
         Long id,
         Long userId,
         List<OrderItemDto> orderItems,
-        LocalDateTime orderData,
+        LocalDateTime orderDate,
         BigDecimal total,
-        Order.Status status
+        OrderStatus status
 ) {
 }

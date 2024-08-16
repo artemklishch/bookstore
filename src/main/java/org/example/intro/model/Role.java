@@ -11,6 +11,7 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.example.intro.enums.RoleName;
 
 @Getter
 @Setter
@@ -27,17 +28,5 @@ public class Role {
 
     public Role(Long id) {
         this.id = id;
-    }
-
-    @Getter
-    public enum RoleName {
-        ADMIN("ADMIN"),
-        USER("USER");
-
-        public final String name;
-
-        RoleName(String roleName) {
-            this.name = roleName;
-        }
     }
 }
