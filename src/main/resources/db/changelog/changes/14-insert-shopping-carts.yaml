@@ -1,0 +1,17 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-shopping-carts
+      author: artem_klishch
+      changes:
+        - insert:
+            tableName: shopping_carts
+            columns:
+              - column: { name: id, value: 1 }
+        - insert:
+            tableName: shopping_carts
+            columns:
+              - column: { name: id, value: 2 }
+        - insert:
+            tableName: shopping_carts
+            columns:
+              - column: { name: id, value: 3 }
