@@ -16,15 +16,12 @@ import org.example.intro.model.User;
 import org.example.intro.repository.book.BookRepository;
 import org.example.intro.repository.cart.CartItemRepository;
 import org.example.intro.repository.cart.CartRepository;
-import org.example.intro.sequrity.CustomUserDetailsService;
 import org.example.intro.service.ShoppingCartService;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
 public class ShoppingCartServiceImpl implements ShoppingCartService {
-    private final CustomUserDetailsService userDetailsService;
     private final CartRepository cartRepository;
     private final CartMapper cartMapper;
     private final CartItemMapper cartItemMapper;
@@ -32,9 +29,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     private final BookRepository bookRepository;
 
     @Override
-    public ShoppingCartDto getCart(Authentication authentication) {
-        Long userId = ((User) userDetailsService
-                .loadUserByUsername(authentication.getName())).getId();
+    public ShoppingCartDto getCart(Long userId) {
         ShoppingCart cart = cartRepository.findById(userId)
                 .orElseThrow(
                         () -> new EntityNotFoundException("Not found the cart "
@@ -46,7 +41,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Override
     public ShoppingCartDto createCartItem(
             CreateCartItemDto createCartItemDto,
-            Authentication authentication
+            Long userId
     ) {
         Long bookId = createCartItemDto.getBookId();
         Book bookById = bookRepository.findById(bookId)
@@ -54,8 +49,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
                         () -> new EntityNotFoundException("Not found the book "
                         + "with id " + bookId)
                 );
-        Long userId = ((User) userDetailsService
-                .loadUserByUsername(authentication.getName())).getId();
         CartItem existingCartItem = cartItemRepository.findByCartIdAndBookId(userId, bookId);
         if (existingCartItem != null) {
             throw new ProceedingException("You can not add more than one cart item "
@@ -65,14 +58,14 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         cartItem.setBook(bookById);
         cartItem.setShoppingCart(new ShoppingCart(userId));
         cartItemRepository.save(cartItem);
-        return getCart(authentication);
+        return getCart(userId);
     }
 
     @Override
     public ShoppingCartDto updateCartItem(
             Long cartItemId,
             UpdateCartItemsQuantityDto requestDto,
-            Authentication authentication
+            Long userId
     ) {
         CartItem cartItem = cartItemRepository
                 .findById(cartItemId)
@@ -82,13 +75,11 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
                 );
         cartItem.setQuantity(requestDto.getQuantity());
         cartItemRepository.save(cartItem);
-        return getCart(authentication);
+        return getCart(userId);
     }
 
     @Override
-    public ShoppingCartDto deleteCartItem(Long cartItemId, Authentication authentication) {
-        Long userId = ((User) userDetailsService
-                .loadUserByUsername(authentication.getName())).getId();
+    public ShoppingCartDto deleteCartItem(Long cartItemId, Long userId) {
         CartItem existingCartItem = Optional.ofNullable(cartItemRepository
                 .findByIdAndByCartId(userId, cartItemId)).orElseThrow(
                 () -> new EntityNotFoundException(
@@ -97,7 +88,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
                 )
         );
         cartItemRepository.delete(existingCartItem);
-        return getCart(authentication);
+        return getCart(userId);
     }
 
     @Override

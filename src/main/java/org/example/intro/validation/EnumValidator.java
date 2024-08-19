@@ -5,7 +5,6 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 public class EnumValidator implements ConstraintValidator<EnumMatch, String> {
-
     private Class<? extends Enum<?>> enumClass;
 
     @Override

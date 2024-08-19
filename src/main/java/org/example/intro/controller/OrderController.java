@@ -9,6 +9,8 @@ import org.example.intro.dto.order.CreateOrderDto;
 import org.example.intro.dto.order.OrderDto;
 import org.example.intro.dto.order.OrderItemDto;
 import org.example.intro.dto.order.UpdateOrderStatusDto;
+import org.example.intro.model.User;
+import org.example.intro.sequrity.CustomUserDetailsService;
 import org.example.intro.service.OrderService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -28,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/orders")
 @RequiredArgsConstructor
 public class OrderController {
+    private final CustomUserDetailsService userDetailsService;
     private final OrderService orderService;
 
     @PreAuthorize("hasAnyRole('USER')")
@@ -38,7 +41,9 @@ public class OrderController {
             @RequestBody @Valid CreateOrderDto requestDto,
             Authentication authentication
     ) {
-        return orderService.placeOrder(requestDto, authentication);
+        Long userId = ((User) userDetailsService
+                .loadUserByUsername(authentication.getName())).getId();
+        return orderService.placeOrder(requestDto, userId);
     }
 
     @Operation(summary = "Get orders", description = "Get orders")
@@ -47,7 +52,9 @@ public class OrderController {
     public List<OrderDto> getOrders(
             Authentication authentication, Pageable pageable
     ) {
-        return orderService.getOrders(authentication, pageable);
+        Long userId = ((User) userDetailsService
+                .loadUserByUsername(authentication.getName())).getId();
+        return orderService.getOrders(pageable, userId);
     }
 
     @Operation(summary = "Get the certain order", description = "Get the certain order by ID")
@@ -57,7 +64,9 @@ public class OrderController {
             @PathVariable Long orderId,
             Authentication authentication
     ) {
-        return orderService.getOrderItems(orderId, authentication);
+        Long userId = ((User) userDetailsService
+                .loadUserByUsername(authentication.getName())).getId();
+        return orderService.getOrderItems(orderId, userId);
     }
 
     @Operation(summary = "Get the certain order item", description = "Get the certain order item by IDs")
@@ -68,7 +77,9 @@ public class OrderController {
             @PathVariable Long id,
             Authentication authentication
     ) {
-        return orderService.getOrderItem(orderId, id, authentication);
+        Long userId = ((User) userDetailsService
+                .loadUserByUsername(authentication.getName())).getId();
+        return orderService.getOrderItem(orderId, id, userId);
     }
 
     @Operation(summary = "Update order status", description = "Update order status")

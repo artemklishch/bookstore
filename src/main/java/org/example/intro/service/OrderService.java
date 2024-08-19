@@ -6,17 +6,16 @@ import org.example.intro.dto.order.OrderDto;
 import org.example.intro.dto.order.OrderItemDto;
 import org.example.intro.dto.order.UpdateOrderStatusDto;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.Authentication;
 
 public interface OrderService {
-    OrderDto placeOrder(CreateOrderDto orderDto, Authentication authentication);
+    OrderDto placeOrder(CreateOrderDto orderDto, Long userId);
 
-    List<OrderDto> getOrders(Authentication authentication, Pageable pageable);
+    List<OrderDto> getOrders(Pageable pageable, Long userId);
 
-    List<OrderItemDto> getOrderItems(Long orderId, Authentication authentication);
+    List<OrderItemDto> getOrderItems(Long orderId, Long userId);
 
     OrderItemDto getOrderItem(
-            Long orderId, Long itemId, Authentication authentication
+            Long orderId, Long itemId, Long userI
     );
 
     OrderDto updateStatus(Long orderId, UpdateOrderStatusDto requestDto);
