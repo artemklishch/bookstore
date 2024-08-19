@@ -33,5 +33,3 @@ databaseChangeLog:
               - column:
                   name: price
                   type: decimal
-                  constraints:
-                    nullable: false

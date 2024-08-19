@@ -1,12 +1,10 @@
 package org.example.intro.validation;
 
+import java.util.Arrays;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
-import java.util.Arrays;
-
 public class EnumValidator implements ConstraintValidator<EnumMatch, String> {
-
     private Class<? extends Enum<?>> enumClass;
 
     @Override

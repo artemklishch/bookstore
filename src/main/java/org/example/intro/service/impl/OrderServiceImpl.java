@@ -58,10 +58,9 @@ public class OrderServiceImpl implements OrderService {
     ) {
         Long userId = ((User) userDetailsService
                 .loadUserByUsername(authentication.getName())).getId();
-        return orderRepository.findOrderItems(orderId, userId)
-                .stream()
-                .map(orderItemMapper::toDto)
-                .toList();
+        return orderItemMapper.toOrderItemsDto(
+                orderRepository.findOrderItems(orderId, userId)
+        );
     }
 
     @Override
@@ -70,12 +69,7 @@ public class OrderServiceImpl implements OrderService {
     ) {
         Long userId = ((User) userDetailsService
                 .loadUserByUsername(authentication.getName())).getId();
-        orderRepository.findOrder(orderId, userId)
-                .orElseThrow(
-                        () -> new EntityNotFoundException(
-                                "Not found the order with the id: " + orderId
-                        )
-                );
+        getOrder(orderId, userId);
         return Optional.ofNullable(orderItemMapper.toDto(
                 orderItemRepository.getOrderItem(orderId, itemId)
         )).orElseThrow(() -> new EntityNotFoundException(
@@ -85,12 +79,22 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDto updateStatus(Long orderId, UpdateOrderStatusDto requestDto) {
-        Order order = orderRepository.findById(orderId).orElseThrow(
+        Order order = getOrder(orderId, null);
+        order.setStatus(OrderStatus.valueOf(requestDto.getStatus()));
+        return orderMapper.toDto(orderRepository.save(order));
+    }
+
+    private Order getOrder(Long orderId, Long userId) {
+        Optional<Order> order;
+        if (userId == null) {
+            order = orderRepository.findOrder(orderId);
+        } else {
+            order = orderRepository.findOrder(orderId, userId);
+        }
+        return order.orElseThrow(
                 () -> new EntityNotFoundException(
                         "Not found the order with the id: " + orderId
                 )
         );
-        order.setStatus(OrderStatus.valueOf(requestDto.getStatus()));
-        return orderMapper.toDto(orderRepository.save(order));
     }
 }

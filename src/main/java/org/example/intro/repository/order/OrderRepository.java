@@ -13,10 +13,12 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     @EntityGraph(attributePaths = "orderItems.book")
     List<Order> findByUserId(Long userId, Pageable pageable);
 
-    @Query("SELECT o.orderItems FROM Order o WHERE o.id=?1 AND o.user.id=?2")
+    @Query("SELECT o.orderItems FROM Order o WHERE o.id= ?1 AND o.user.id= ?2")
     List<OrderItem> findOrderItems(Long orderId, Long userId);
 
-    @Query("SELECT o FROM Order o WHERE o.id=?1 AND o.user.id=?2")
+    @Query("SELECT o FROM Order o WHERE o.id= ?1 AND o.user.id= ?2")
     Optional<Order> findOrder(Long orderId, Long userId);
 
+    @Query("SELECT o FROM Order o WHERE o.id= ?1")
+    Optional<Order> findOrder(Long orderId);
 }
