@@ -4,23 +4,22 @@ import org.example.intro.dto.cart.CreateCartItemDto;
 import org.example.intro.dto.cart.ShoppingCartDto;
 import org.example.intro.dto.cart.UpdateCartItemsQuantityDto;
 import org.example.intro.model.User;
-import org.springframework.security.core.Authentication;
 
 public interface ShoppingCartService {
-    ShoppingCartDto getCart(Authentication authentication);
+    ShoppingCartDto getCart(Long userId);
 
     ShoppingCartDto createCartItem(
             CreateCartItemDto createCartItemDto,
-            Authentication authentication
+            Long userId
     );
 
     ShoppingCartDto updateCartItem(
             Long cartItemId,
             UpdateCartItemsQuantityDto requestDto,
-            Authentication authentication
+            Long userId
     );
 
-    ShoppingCartDto deleteCartItem(Long cartItemId, Authentication authentication);
+    ShoppingCartDto deleteCartItem(Long cartItemId, Long userId);
 
     void createShoppingCart(User user);
 }

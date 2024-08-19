@@ -18,7 +18,6 @@ import org.example.intro.repository.order.OrderRepository;
 import org.example.intro.sequrity.CustomUserDetailsService;
 import org.example.intro.service.OrderService;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -31,33 +30,21 @@ public class OrderServiceImpl implements OrderService {
     private final OrderItemRepository orderItemRepository;
 
     @Override
-    public OrderDto placeOrder(
-            CreateOrderDto requestDto, Authentication authentication
-    ) {
+    public OrderDto placeOrder(CreateOrderDto requestDto, Long userId) {
         Order order = orderMapper.toEntity(requestDto);
-        Long userId = ((User) userDetailsService
-                .loadUserByUsername(authentication.getName())).getId();
         order.setUser(new User(userId));
         return orderMapper.toDto(orderRepository.save(order));
     }
 
     @Override
-    public List<OrderDto> getOrders(
-            Authentication authentication, Pageable pageable
-    ) {
-        Long userId = ((User) userDetailsService
-                .loadUserByUsername(authentication.getName())).getId();
-        return orderRepository.findByUserId(userId, pageable).stream()
-                .map(orderMapper::toDto)
-                .toList();
+    public List<OrderDto> getOrders(Pageable pageable, Long userId) {
+        return orderMapper.toOrdersDto(
+                orderRepository.findByUserId(userId, pageable)
+        );
     }
 
     @Override
-    public List<OrderItemDto> getOrderItems(
-            Long orderId, Authentication authentication
-    ) {
-        Long userId = ((User) userDetailsService
-                .loadUserByUsername(authentication.getName())).getId();
+    public List<OrderItemDto> getOrderItems(Long orderId, Long userId) {
         return orderItemMapper.toOrderItemsDto(
                 orderRepository.findOrderItems(orderId, userId)
         );
@@ -65,10 +52,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderItemDto getOrderItem(
-            Long orderId, Long itemId, Authentication authentication
+            Long orderId, Long itemId, Long userId
     ) {
-        Long userId = ((User) userDetailsService
-                .loadUserByUsername(authentication.getName())).getId();
         getOrder(orderId, userId);
         return Optional.ofNullable(orderItemMapper.toDto(
                 orderItemRepository.getOrderItem(orderId, itemId)
