@@ -4,12 +4,12 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.example.intro.dto.cart.CartItemDto;
 import org.example.intro.dto.cart.CreateCartItemDto;
 import org.example.intro.dto.cart.ShoppingCartDto;
 import org.example.intro.dto.cart.UpdateCartItemsQuantityDto;
+import org.example.intro.model.User;
+import org.example.intro.sequrity.CustomUserDetailsService;
 import org.example.intro.service.ShoppingCartService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @RestController
 @RequestMapping("/cart")
 public class CartController {
+    private final CustomUserDetailsService userDetailsService;
     private final ShoppingCartService cartService;
 
     @GetMapping
@@ -37,7 +38,9 @@ public class CartController {
             description = "Retrieve the shopping cart data with cart items"
     )
     public ShoppingCartDto getCart(Authentication authentication){
-        return cartService.getCart(authentication);
+        Long userId = ((User) userDetailsService
+                .loadUserByUsername(authentication.getName())).getId();
+        return cartService.getCart(userId);
     }
 
     @PostMapping
@@ -51,7 +54,9 @@ public class CartController {
             Authentication authentication,
             @RequestBody @Valid CreateCartItemDto requestDto
     ){
-        return cartService.createCartItem(requestDto, authentication);
+        Long userId = ((User) userDetailsService
+                .loadUserByUsername(authentication.getName())).getId();
+        return cartService.createCartItem(requestDto, userId);
     }
 
     @PutMapping("/items/{cartItemId}")
@@ -66,7 +71,9 @@ public class CartController {
             @RequestBody @Valid UpdateCartItemsQuantityDto quantityDto,
             Authentication authentication
     ){
-        return cartService.updateCartItem(cartItemId, quantityDto, authentication);
+        Long userId = ((User) userDetailsService
+                .loadUserByUsername(authentication.getName())).getId();
+        return cartService.updateCartItem(cartItemId, quantityDto, userId);
     }
 
     @DeleteMapping("/items/{cartItemId}")
@@ -80,6 +87,8 @@ public class CartController {
             Authentication authentication,
             @PathVariable Long cartItemId
     ){
-        return cartService.deleteCartItem(cartItemId, authentication);
+        Long userId = ((User) userDetailsService
+                .loadUserByUsername(authentication.getName())).getId();
+        return cartService.deleteCartItem(cartItemId, userId);
     }
 }

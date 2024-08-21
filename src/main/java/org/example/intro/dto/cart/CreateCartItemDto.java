@@ -3,11 +3,9 @@ package org.example.intro.dto.cart;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Positive;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 public class CreateCartItemDto {
     @NotNull(message = "The book identifier is mandatory")
     private Long bookId;
