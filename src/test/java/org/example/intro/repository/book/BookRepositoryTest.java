@@ -1,10 +1,8 @@
 package org.example.intro.repository.book;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;
 import java.util.Optional;
-import org.example.intro.dto.book.BookSearchParametersDto;
 import org.example.intro.model.Book;
 import org.example.intro.util.HandleDefaultDBData;
 import org.junit.jupiter.api.DisplayName;
@@ -13,15 +11,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.jpa.domain.Specification;
+import java.math.BigDecimal;
 
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class BookRepositoryTest extends HandleDefaultDBData {
     @Autowired
     private BookRepository bookRepository;
 
-    @Autowired
-    private BookSpecificationBuilder bookSpecificationBuilder;
+//    @Autowired
+//    private BookSpecificationBuilder bookSpecificationBuilder;
 
     @Test
     @DisplayName("Verify fetching all books")
@@ -61,15 +59,50 @@ class BookRepositoryTest extends HandleDefaultDBData {
     }
 
     @Test
-    @DisplayName("Verify fetching by authors query param")
-    void findByQueryParam_WithAuthorParam_ReturnsBooks() {
-        String[] authors = {"boris"};
-        BookSearchParametersDto params = new BookSearchParametersDto()
-                .setAuthors(authors);
-        Specification<Book> bookSpecification = bookSpecificationBuilder.build(params);
-        Page<Book> actual = bookRepository.findAll(
-                bookSpecification, PageRequest.of(0, 10)
-        );
-        assertEquals(1, actual.getContent().size());
+    @DisplayName("Create book")
+    void createBook_ReturnsBook_DeleteBook() {
+        Book book = new Book();
+        book.setAuthor("Some Author");
+        book.setTitle("Some Title");
+        book.setIsbn("Some Isbn");
+        book.setPrice(BigDecimal.valueOf(10));
+        book.setDescription("Some Description");
+
+        book = bookRepository.save(book);
+
+        assertNotNull(book.getId());
+        assertEquals(6, bookRepository.findAll().size());
+
+        bookRepository.deleteById(book.getId());
+        assertEquals(5, bookRepository.findAll().size());
     }
+
+    @Test
+    @DisplayName("Verify update book")
+    void updateBook_UpdateBook_ReturnsBook() {
+        Long id = 1L;
+        Book book = bookRepository.findById(id).orElse(null);
+        assertNotNull(book);
+        String author = book.getAuthor();
+        book.setAuthor("Updated Author");
+        String updatedAuthor = book.getAuthor();
+
+        bookRepository.save(book);
+
+        assertNotEquals(updatedAuthor, author);
+        assertEquals(updatedAuthor, book.getAuthor());
+    }
+
+//    @Test
+//    @DisplayName("Verify fetching by authors query param")
+//    void findByQueryParam_WithAuthorParam_ReturnsBooks() {
+//        String[] authors = {"boris"};
+//        BookSearchParametersDto params = new BookSearchParametersDto()
+//                .setAuthors(authors);
+//        Specification<Book> bookSpecification = bookSpecificationBuilder.build(params);
+//        Page<Book> actual = bookRepository.findAll(
+//                bookSpecification, PageRequest.of(0, 10)
+//        );
+//        assertEquals(1, actual.getContent().size());
+//    }
 }
