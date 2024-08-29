@@ -15,7 +15,6 @@ services:
 
   app:
     image: book_store
-    container_name: book_store
     depends_on:
       - database
     build: .
