@@ -5,7 +5,10 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import java.math.BigDecimal;
 import java.util.List;
@@ -123,7 +126,7 @@ class BookControllerTest extends HandleDefaultDBData {
     @WithMockUser(username = "admin", roles = "ADMIN")
     @Test
     @DisplayName("Delete book by ID")
-    void deleteBookById_WithExistingId_ReturnsBookDto() throws Exception {
+    void deleteBookById_WithExistingId() throws Exception {
         Long id = 1L;
 
         MvcResult result = mockMvc.perform(delete(ENDPOINT + "/{id}", id))

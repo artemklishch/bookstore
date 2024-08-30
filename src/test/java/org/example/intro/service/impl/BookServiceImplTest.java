@@ -1,4 +1,4 @@
-package org.example.intro.service;
+package org.example.intro.service.impl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -14,7 +14,6 @@ import org.example.intro.dto.book.CreateBookDto;
 import org.example.intro.mapper.BookMapper;
 import org.example.intro.model.Book;
 import org.example.intro.repository.book.BookRepository;
-import org.example.intro.service.impl.BookServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,10 +24,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.security.test.context.support.WithMockUser;
 
 @ExtendWith(MockitoExtension.class)
-class BookServiceTest {
+class BookServiceImplTest {
     @Mock
     private BookRepository bookRepository;
 
