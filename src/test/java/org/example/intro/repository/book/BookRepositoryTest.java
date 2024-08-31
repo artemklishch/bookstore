@@ -1,11 +1,8 @@
 package org.example.intro.repository.book;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 import org.example.intro.dto.book.BookSearchParametersDto;
 import org.example.intro.model.Book;
 import org.example.intro.util.HandleDefaultDBData;
