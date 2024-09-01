@@ -26,7 +26,6 @@ services:
       SPRING_DATASOURCE_URL: "jdbc:mysql://database:${MYSQLDB_DOCKER_PORT}/${MYSQLDB_DATABASE}?serverTimezone=UTC"
       SPRING_DATASOURCE_USERNAME: ${MYSQLDB_USER}
       SPRING_DATASOURCE_PASSWORD: ${MYSQLDB_ROOT_PASSWORD}
-      SPRING_JPA_HIBERNATE_DDL_AUTO: validate
       JAVA_TOOL_OPTIONS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:${DEBUG_PORT}"
     restart: on-failure
 
