@@ -29,7 +29,6 @@ This controller provides the way of registration of user and signing in of regis
 
 ## Launch the project locally
 ```mermaid
-flowchart ID
 A[Launch the application] --> B{Running the server for the first time:
 1. Clone the project
 2. Remove './target' directory if it exists with the command 'rm -rf target' (for the first running the server)
