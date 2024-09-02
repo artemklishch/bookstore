@@ -34,12 +34,15 @@ Running the server for the first time:
 2. Remove './target' directory if it exists with the command 'rm -rf target' (for the first running the server)
 3. Build target directory with the command "mvn clean package" if you don't have the "target" directory
 4. Add ".env" file in the root of the project with values for variables as it is pointed in the ".env.example" file - if you didn't add it earlier
+You can use your values of variables in the '.env' file 
 5. Run the server container with the command "docker compose up --force-recreate --build"
 
 Running the server next:
 1. If you don't have "target" directory run the command "mvn clean package"
 2. If you don't have the ".env" file - add it with values for variables as it is pointed in the ".env.example" file
 3. Run the server container with the command "docker compose up --force-recreate --build"
+
+Video instruction to run the app: https://www.loom.com/share/f32fb6dfe9624ae58157ee6732655667?sid=33b2152a-1f9e-49e9-a7a4-a5a36c0ddf12
 
 
 ## Project features
