@@ -42,7 +42,7 @@ Running the server next:
 3. Run the server container with the command "docker compose up --force-recreate --build"
 
 Video instruction to run the app:
-[![Watch the video]()](https://www.loom.com/share/f32fb6dfe9624ae58157ee6732655667?sid=33b2152a-1f9e-49e9-a7a4-a5a36c0ddf12)
+[![Watch the video](https://img.freepik.com/free-vector/isometric-cms-concept_23-2148807389.jpg)](https://www.loom.com/share/f32fb6dfe9624ae58157ee6732655667?sid=33b2152a-1f9e-49e9-a7a4-a5a36c0ddf12)
 
 ## Project features
 This project is run with the Dockerfile and docker compose. 
