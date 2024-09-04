@@ -41,11 +41,8 @@ Running the server next:
 2. If you don't have the ".env" file - add it with values for variables as it is pointed in the ".env.example" file
 3. Run the server container with the command "docker compose up --force-recreate --build"
 
-Video instruction to run the app: 
-![](https://www.loom.com/share/f32fb6dfe9624ae58157ee6732655667?sid=33b2152a-1f9e-49e9-a7a4-a5a36c0ddf12)
-
-[//]: # (https://www.loom.com/share/f32fb6dfe9624ae58157ee6732655667?sid=33b2152a-1f9e-49e9-a7a4-a5a36c0ddf12)
-
+Video instruction to run the app:
+[![Watch the video](https://www.loom.com/share/f32fb6dfe9624ae58157ee6732655667?sid=33b2152a-1f9e-49e9-a7a4-a5a36c0ddf12](https://www.loom.com/share/f32fb6dfe9624ae58157ee6732655667?sid=33b2152a-1f9e-49e9-a7a4-a5a36c0ddf12)
 
 ## Project features
 This project is run with the Dockerfile and docker compose. 
