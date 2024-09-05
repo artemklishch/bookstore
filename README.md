@@ -17,6 +17,7 @@ The application was made with technologies:
 8. Mapstruct
 9. Test containers
 10. Springdoc
+11. Docker
 
 ## Controllers
 There are controllers:
@@ -28,7 +29,23 @@ This controller provides the way of registration of user and signing in of regis
 5. OrderController. Responsible for CRUD operations with book orders.
 
 ## Launch the project locally
+Pre-conditions:
+You should have installed: "Docker", "docker compose", "Maven", Java 17. 
+Nice to have IntelliJIdea for work.
 
+```mermaid
+graph TD;
+    graph TD;
+    A["Running the server for the first time"] --> B["Clone the project from GitHub"];
+    B --> C["Add '.env' file with variables from '.env.example'"];
+    C --> D["Run 'mvn clean package'"];
+    D --> E["Run 'docker compose up --force-recreate --build'"];
+
+    A2["Running the server next times"] --> B2["Check if '.env' file exists"];
+    B2 --> C2["Check if 'target' directory exists"];
+    C2 --> D2["Run 'mvn clean package' if target directory is missing"];
+    D2 --> E2["Run 'docker compose up --force-recreate --build'"];
+```
 Running the server for the first time:
 1. Clone the project from the GitHub repository: https://github.com/artemklishch/bookstore
 2. Add ".env" file in the root of the project with variables as it is pointed in the ".env.example" file - if you didn't add it earlier
