@@ -30,8 +30,11 @@ This controller provides the way of registration of user and signing in of regis
 
 ## Launch the project locally
 Pre-conditions:
-You should have installed: "Docker", "docker compose", "Maven", Java 17. 
+
+You should have installed: "Docker", "docker compose". 
+
 Nice to have IntelliJIdea for work.
+
 Before launch the command to run the docker container you should have the Docker running/open. 
 
 ![Server Flow Diagram](src/main/java/org/example/intro/assets/launch-app-diagram.svg)
