@@ -34,12 +34,12 @@ Running the server for the first time:
 2. Add ".env" file in the root of the project with values for variables as it is pointed in the ".env.example" file - if you didn't add it earlier
    You can use your values of variables in the '.env' file
 3. Run the command "mvn clean package"
-4. Run the server container with the command "docker compose up --force-recreate --build"
+4. Run the container with the command "docker compose up --force-recreate --build"
 
-Running the server next:
+Running the server next times:
 1. If you don't have "target" directory run the command "mvn clean package"
 2. If you don't have the ".env" file - add it with values for variables as it is pointed in the ".env.example" file
-3. Run the server container with the command "docker compose up --force-recreate --build"
+3. Run the container with the command "docker compose up --force-recreate --build"
 
 Video instruction to run the app:
 [![Watch the video](https://img.freepik.com/free-vector/isometric-cms-concept_23-2148807389.jpg)](https://www.loom.com/share/f32fb6dfe9624ae58157ee6732655667?sid=33b2152a-1f9e-49e9-a7a4-a5a36c0ddf12)
