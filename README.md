@@ -45,5 +45,5 @@ Video instruction to run the app:
 [![Watch the video](https://img.freepik.com/free-vector/isometric-cms-concept_23-2148807389.jpg)](https://www.loom.com/share/f32fb6dfe9624ae58157ee6732655667?sid=33b2152a-1f9e-49e9-a7a4-a5a36c0ddf12)
 
 ## Project features
-This project is run with the Dockerfile and docker compose. 
-The challenge was - to make docker settings in order to provide the ability to run the project on the every computer.
+This project is run with the Dockerfile and docker compose.
+The biggest challenge of the project was - to make docker settings in order to provide the ability to run the project on the every computer.
