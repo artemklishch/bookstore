@@ -40,7 +40,7 @@ Before launch the command to run the docker container you should have the Docker
 ![Server Flow Diagram](src/main/java/org/example/intro/assets/launch-app-diagram.svg)
 
 ### Video instruction to run the app:
-[![Watch the video](https://img.freepik.com/free-vector/isometric-cms-concept_23-2148807389.jpg)](https://www.loom.com/share/f32fb6dfe9624ae58157ee6732655667?sid=33b2152a-1f9e-49e9-a7a4-a5a36c0ddf12)
+[![Watch the video](https://img.freepik.com/free-vector/isometric-cms-concept_23-2148807389.jpg)](https://www.loom.com/share/037bb28816e746f6a0487ae0a97ee319?sid=36a4464d-ae4c-4885-a729-13bc7c054b54)
 
 ## Project features
 This project is run with the Dockerfile and docker compose.
